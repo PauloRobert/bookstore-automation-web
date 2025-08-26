@@ -4,6 +4,7 @@ import com.demoqa.hooks.Hooks;
 import com.demoqa.pages.FormPage;
 import com.demoqa.utils.ConfigReader;
 import io.cucumber.java.pt.*;
+import org.openqa.selenium.TakesScreenshot;
 
 public class FormSteps {
 

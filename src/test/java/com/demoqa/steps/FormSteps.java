@@ -1,7 +1,7 @@
 package com.demoqa.steps;
 
 import com.demoqa.hooks.Hooks;
-import br.com.bookstore.automation.pages.FormPage;
+import com.demoqa.pages.FormPage;
 import io.cucumber.java.pt.*;
 
 public class FormSteps {

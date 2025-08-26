@@ -73,7 +73,7 @@ public class Hooks {
         }
     }
 
-    private void takeScreenshot(Scenario scenario, String status) {
+    public static void takeScreenshot(Scenario scenario, String status) {
         try {
             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getName() + "-" + status);

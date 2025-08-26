@@ -1,12 +1,10 @@
 package com.demoqa.pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
-/**
- * Classe base para todas as páginas.
- * Contém o driver e inicializa os elementos com PageFactory.
- */
 public abstract class BasePage {
 
     protected WebDriver driver;
@@ -18,5 +16,19 @@ public abstract class BasePage {
 
     public String getPageTitle() {
         return driver.getTitle();
+    }
+
+    protected void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    protected void click(WebElement element) {
+        scrollToElement(element);
+        element.click();
+    }
+
+    protected void sendKeys(WebElement element, String text) {
+        scrollToElement(element);
+        element.sendKeys(text);
     }
 }

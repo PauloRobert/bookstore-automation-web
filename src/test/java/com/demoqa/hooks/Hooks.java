@@ -58,6 +58,7 @@ public class Hooks {
         }
 
         driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
     }
 
     @After

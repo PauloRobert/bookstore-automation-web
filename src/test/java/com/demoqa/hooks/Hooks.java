@@ -2,6 +2,7 @@ package com.demoqa.hooks;
 
 import com.demoqa.utils.ConfigReader;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -80,5 +81,9 @@ public class Hooks {
         } catch (WebDriverException e) {
             e.printStackTrace();
         }
+    }
+    @AfterStep
+    public static void afterStep(Scenario scenario) {
+        takeScreenshot(scenario, "after-step");
     }
 }

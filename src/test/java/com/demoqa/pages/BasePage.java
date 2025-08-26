@@ -1,4 +1,22 @@
 package com.demoqa.pages;
 
-public class BasePage {
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+
+/**
+ * Classe base para todas as páginas.
+ * Contém o driver e inicializa os elementos com PageFactory.
+ */
+public abstract class BasePage {
+
+    protected WebDriver driver;
+
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public String getPageTitle() {
+        return driver.getTitle();
+    }
 }

@@ -5,17 +5,12 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Classe de inicialização e finalização do navegador.
@@ -78,12 +73,10 @@ public class Hooks {
     }
 
     private void takeScreenshot(Scenario scenario, String status) {
-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         try {
-            byte[] fileContent = FileUtils.readFileToByteArray(screenshot);
-            scenario.attach(fileContent, "image/png", scenario.getName() + "-" + status);
-            Files.deleteIfExists(screenshot.toPath());
-        } catch (IOException e) {
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", scenario.getName() + "-" + status);
+        } catch (WebDriverException e) {
             e.printStackTrace();
         }
     }

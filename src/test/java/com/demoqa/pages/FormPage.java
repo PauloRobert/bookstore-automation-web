@@ -1,6 +1,7 @@
 package com.demoqa.pages;
 
 import com.github.javafaker.Faker;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,14 +16,18 @@ public class FormPage extends BasePage {
         super(driver);
     }
 
+    // ==========================
     // Locators da Home e Navegação
+    // ==========================
     @FindBy(xpath = "//h5[text()='Forms']")
     private WebElement cardForms;
 
     @FindBy(xpath = "//span[text()='Practice Form']")
     private WebElement optionPracticeForm;
 
+    // ==========================
     // Locators do formulário
+    // ==========================
     @FindBy(id = "firstName")
     private WebElement inputFirstName;
 
@@ -50,35 +55,50 @@ public class FormPage extends BasePage {
     @FindBy(id = "closeLargeModal")
     private WebElement btnCloseModal;
 
+    // ==========================
     // Métodos de ação
+    // ==========================
+
+    // Navegação
     public void acessarForms() {
-        cardForms.click();
+        safeClick(cardForms);
     }
 
     public void acessarPracticeForm() {
-        optionPracticeForm.click();
+        safeClick(optionPracticeForm);
     }
 
+    // Preenchimento do formulário
     public void preencherFormulario(String filePath) {
-        inputFirstName.sendKeys(faker.name().firstName());
-        inputLastName.sendKeys(faker.name().lastName());
-        inputEmail.sendKeys(faker.internet().emailAddress());
-        radioMale.click();
-        inputMobile.sendKeys(faker.number().digits(10));
+        safeSendKeys(inputFirstName, faker.name().firstName());
+        safeSendKeys(inputLastName, faker.name().lastName());
+        safeSendKeys(inputEmail, faker.internet().emailAddress());
+        safeClick(radioMale);
+        safeSendKeys(inputMobile, faker.number().digits(10));
 
         File file = new File(filePath);
-        inputUpload.sendKeys(file.getAbsolutePath());
+        safeSendKeys(inputUpload, file.getAbsolutePath());
     }
 
+    // Submissão do formulário
     public void submeterFormulario() {
-        btnSubmit.click();
+        // Se houver modal visível, fecha antes de submeter
+        if (popupSucessoVisivel()) {
+            fecharPopup();
+        }
+        safeClick(btnSubmit);
     }
 
+    // Validação do popup
     public boolean popupSucessoVisivel() {
-        return modalTitle.isDisplayed();
+        try {
+            return modalTitle.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void fecharPopup() {
-        btnCloseModal.click();
+        safeClick(btnCloseModal);
     }
 }

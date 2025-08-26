@@ -1,10 +1,12 @@
 package com.demoqa.pages;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 
+/**
+ * Classe base para todas as páginas.
+ * Contém o driver, inicializa os elementos e fornece métodos utilitários.
+ */
 public abstract class BasePage {
 
     protected WebDriver driver;
@@ -18,17 +20,42 @@ public abstract class BasePage {
         return driver.getTitle();
     }
 
-    protected void scrollToElement(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    /**
+     * Realiza scroll até o elemento e tenta clicar de forma segura,
+     * lidando com ElementClickInterceptedException e StaleElementReferenceException.
+     */
+    protected void safeClick(WebElement element) {
+        int attempts = 0;
+        while (attempts < 5) {
+            try {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+                element.click();
+                return;
+            } catch (ElementClickInterceptedException e) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+                return;
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+            }
+        }
+        throw new RuntimeException("Não foi possível clicar no elemento: " + element);
     }
 
-    protected void click(WebElement element) {
-        scrollToElement(element);
-        element.click();
-    }
-
-    protected void sendKeys(WebElement element, String text) {
-        scrollToElement(element);
-        element.sendKeys(text);
+    /**
+     * Preenche um campo com sendKeys de forma segura, fazendo scroll antes.
+     */
+    protected void safeSendKeys(WebElement element, String text) {
+        int attempts = 0;
+        while (attempts < 5) {
+            try {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+                element.clear();
+                element.sendKeys(text);
+                return;
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+            }
+        }
+        throw new RuntimeException("Não foi possível enviar texto para o elemento: " + element);
     }
 }

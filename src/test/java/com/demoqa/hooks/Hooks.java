@@ -82,8 +82,12 @@ public class Hooks {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Se quiser tirar print a cada step, só descomentar aqui!
     @AfterStep
     public static void afterStep(Scenario scenario) {
         takeScreenshot(scenario, "after-step");
     }
+     */
 }

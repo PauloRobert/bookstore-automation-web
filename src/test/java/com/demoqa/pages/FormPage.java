@@ -1,13 +1,12 @@
 package com.demoqa.pages;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.io.File;
 
-/**
- * Page Object da página Practice Form.
- */
 public class FormPage extends BasePage {
 
     private final Faker faker = new Faker();
@@ -16,7 +15,14 @@ public class FormPage extends BasePage {
         super(driver);
     }
 
-    // Elementos do formulário
+    // Locators da Home e Navegação
+    @FindBy(xpath = "//h5[text()='Forms']")
+    private WebElement cardForms;
+
+    @FindBy(xpath = "//span[text()='Practice Form']")
+    private WebElement optionPracticeForm;
+
+    // Locators do formulário
     @FindBy(id = "firstName")
     private WebElement inputFirstName;
 
@@ -44,7 +50,15 @@ public class FormPage extends BasePage {
     @FindBy(id = "closeLargeModal")
     private WebElement btnCloseModal;
 
-    // Ações
+    // Métodos de ação
+    public void acessarForms() {
+        cardForms.click();
+    }
+
+    public void acessarPracticeForm() {
+        optionPracticeForm.click();
+    }
+
     public void preencherFormulario(String filePath) {
         inputFirstName.sendKeys(faker.name().firstName());
         inputLastName.sendKeys(faker.name().lastName());

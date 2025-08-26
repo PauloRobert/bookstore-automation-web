@@ -16,8 +16,8 @@
 
         <junit.jupiter.version>5.11.3</junit.jupiter.version>
         <junit.platform.version>1.11.3</junit.platform.version>
-        <selenium.version>4.21.0</selenium.version>
-        <webdrivermanager.version>5.9.2</webdrivermanager.version>
+        <selenium.version>4.35.0</selenium.version>
+        <webdrivermanager.version>6.2.0</webdrivermanager.version>
         <cucumber.version>7.18.0</cucumber.version>
         <faker.version>1.0.2</faker.version>
         <surefire.version>3.5.3</surefire.version>
